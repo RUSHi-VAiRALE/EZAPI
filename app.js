@@ -22,15 +22,15 @@ app.get("/",(req, res)=>{
     res.send("server is working")
 })
 
-const db = new pg.Client({
-    user : "postgres",
-    host : "localhost",
-    database : "EZDatabase",
-    password : "Tommy777#",
-    port : "5432"
-});
+// const db = new pg.Client({
+//     user : "postgres",
+//     host : "localhost",
+//     database : "EZDatabase",
+//     password : "Tommy777#",
+//     port : "5432"
+// });
 
-db.connect();
+// db.connect();
 
 app.get("/sqlQuery",(req, res)=>{
     db.query("SELECT * FROM Student", (err,data)=>{

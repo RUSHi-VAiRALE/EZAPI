@@ -2,7 +2,7 @@ const express = require("express")
 const mongoose = require("mongoose")
 const pg = require("pg")
 const cors = require("cors")
-const port = 3001
+const port = 8001
 const bodyParser = require("body-parser");
 const app = express();
 app.use(express.json());

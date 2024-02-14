@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const app = express();
 const Plan = require("./models/subPlan")
 const Exam = require("./models/examSchema");
+const Subscription = require("./models/subscriptionDetailsSchema")
 app.use(express.json());
 const Student = require("./models/student")
 app.use(bodyParser.urlencoded({extended : true}));
@@ -96,7 +97,11 @@ app.post("/addExam",async(req, res)=>{
             examName : req.body.examName,
             examQualification : req.body.examQualification,
             examStartDate : req.body.examStartDate,
-            examEndDate : req.body.examEndDate
+            examEndDate : req.body.examEndDate,
+            examMessage : req.body.examMessage,
+            examDescription : req.body.examDescription,
+            isPrime : req.body.isPrime,
+            examUploadDate : req.body.examUploadDate
         })
 
         const nExam = await newExam.save();
@@ -117,6 +122,41 @@ app.get("/getAllExams", async(req,res)=>{
         console.log(err)
         res.send(err)
     })
+})
+
+// add Subscription Plan
+
+app.post("/newSubPlan", async(req,res)=>{
+    console.log(req.query)
+    const array = []
+    array.push(req.query.p1)
+    array.push(req.query.p2)
+    array.push(req.query.p3)
+    console.log(array)
+    const nSubPlan = new Subscription ({
+        studentId : req.body.studentID,
+        subScriptionPlanId : req.body.subPlanid,
+        ExamIds : array,
+        Sub_Start_Date : req.body.sub_start_date,
+        Sub_End_Date : req.body.sub_end_date
+    })
+
+    await nSubPlan.save();
+    res.send(req.body)
+})
+
+//get all subscribed exams
+app.get("/getStudentExams/:id",async(req,res)=>{
+    const array = new Array()
+
+    const data = await Subscription.findOne({studentId : req.params.id})
+    await Promise.all(data.ExamIds.map(async(dt)=>{
+        const a = await Exam.findOne({_id : dt})
+        array.push(a)
+    })
+    )
+    console.log(array)
+    res.send(array)
 })
 
 

@@ -12,12 +12,12 @@ app.use(express.json());
 const Student = require("./models/student")
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(cors());
-
+app.use(bodyParser.json)
 // connect to db
 mongoose.connect("mongodb+srv://rushivairale:hMhBAmtpe6MXrk4w@cluster0.mi0lpr7.mongodb.net/kshitijArtsDB?retryWrites=true&w=majority");
 
 
-
+//formant frontend:- {/* <b>11 PREMIUM Notifications</b> and<br> <b>12 Reminders</b> for the<br> <b>3 Interests</b> that you will select. */}
 
 app.get("/",(req, res)=>{
     res.send("server is working")
@@ -33,16 +33,16 @@ app.get("/",(req, res)=>{
 
 // db.connect();
 
-app.get("/sqlQuery",(req, res)=>{
-    db.query("SELECT * FROM Student", (err,data)=>{
-    if(err){
-        console.log(err)
-    }else{
-        console.log(data.rows)
-        res.send(data.rows)
-    }
-});
-})
+// app.get("/sqlQuery",(req, res)=>{
+//     db.query("SELECT * FROM Student", (err,data)=>{
+//     if(err){
+//         console.log(err)
+//     }else{
+//         console.log(data.rows)
+//         res.send(data.rows)
+//     }
+// });
+// })
 
 // to add a new Student
 app.post("/addStudent",async(req, res)=>{
@@ -71,7 +71,8 @@ app.get("/student/:id", async(req, res)=>{
         res.send(err)
     })
 })
- 
+
+
 // add subcription plan Details
 app.post("/addPlan", async(req, res)=>{
     try {
@@ -125,7 +126,6 @@ app.get("/getAllExams", async(req,res)=>{
 })
 
 // add Subscription Plan
-
 app.post("/newSubPlan", async(req,res)=>{
     console.log(req.query)
     const array = []
